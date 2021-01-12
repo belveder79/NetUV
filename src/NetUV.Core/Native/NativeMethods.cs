@@ -1,4 +1,5 @@
-﻿// Copyright (c) Johnny Z. All rights reserved.
+﻿// #define IOS
+// Copyright (c) Johnny Z. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // ReSharper disable InconsistentNaming
@@ -113,7 +114,11 @@ namespace NetUV.Core.Native
 
     static partial class NativeMethods
     {
+#if IOS
+        const string LibraryName = "__Internal";
+#else   
         const string LibraryName = "libuv";
+#endif
 
         #region Common
 
@@ -173,9 +178,9 @@ namespace NetUV.Core.Native
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         static extern int uv_is_active(IntPtr handle);
 
-        #endregion Common
+#endregion Common
 
-        #region Error
+#region Error
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void ThrowIfError(int code)
@@ -214,9 +219,9 @@ namespace NetUV.Core.Native
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         static extern IntPtr uv_err_name(uv_err_code err);
 
-        #endregion Error
+#endregion Error
 
-        #region Version
+#region Version
 
         internal static Version GetVersion()
         {
@@ -231,6 +236,6 @@ namespace NetUV.Core.Native
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         static extern uint uv_version();
 
-        #endregion Version
+#endregion Version
     }
 }
